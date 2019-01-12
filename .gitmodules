@@ -1,3 +1,9 @@
 [submodule "rocksdb_sys/rocksdb_sys/rocksdb"]
 	path = rocksdb_sys/rocksdb_sys/rocksdb
 	url = https://github.com/edwardpku/rocksdb.git
+[submodule "rocksdb_sys/rocksdb"]
+	path = rocksdb_sys/rocksdb
+	url = https://github.com/edwardpku/rocksdb.git
+[submodule "rocksdb"]
+	path = rocksdb
+	url = https://github.com/edwardpku/rust-rocksdb.git

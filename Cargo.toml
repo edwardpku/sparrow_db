@@ -8,6 +8,7 @@ futures = "^0.1.15"
 grpcio = { version = "0.4", default-features = false, features = ["protobuf-codec"] }
 grpcio-proto = { version = "0.4"}
 sparrow_db_model = { path = "model"}
+rocksdb = { path = "rocksdb" }
 slog = { version = "2.4.1" }
 slog-async = "2.1"
 slog-stdlog = "3.0"
@@ -18,4 +19,4 @@ libc = "0.2.11"
 crc = "1.2"
 
 [workspace]
-members = ["model", "client", "rocksdb_sys"]
+members = ["model", "client", "rocksdb"]
