@@ -28,28 +28,36 @@ use futures::sync::oneshot;
 use futures::Future;
 use grpcio::{Environment, RpcContext, ServerBuilder, UnarySink};
 
-use sparrow_db_model::proto::helloworld::{HelloReply, HelloRequest};
-use sparrow_db_model::proto::helloworld_grpc::{self, Greeter};
+use sparrow_db_model::proto::operation::{GetRequest, GetResponse, PutRequest, PutResponse, DeleteRequest, DeleteResponse, ScanRequest, ScanResponse};
+use sparrow_db_model::proto::operation_grpc::{self, SparrowDb};
 
 #[derive(Clone)]
-struct GreeterService;
+struct SparrowDBService;
 
-impl Greeter for GreeterService {
-    fn say_hello(&mut self, ctx: RpcContext, req: HelloRequest, sink: UnarySink<HelloReply>) {
-        let msg = format!("Hello {}", req.get_name());
-        let mut resp = HelloReply::new();
-        resp.set_message(msg);
+
+impl SparrowDb for SparrowDBService {
+    fn get(&mut self, ctx: RpcContext, req: GetRequest, sink: UnarySink<GetResponse>) {
+        let mut resp = GetResponse::new();
         let f = sink
             .success(resp)
             .map_err(move |e| error!("failed to reply {:?}: {:?}", req, e));
         ctx.spawn(f)
+    }
+
+    fn put(&mut self, ctx: RpcContext, req: PutRequest, sink: UnarySink<PutResponse>) {
+    }
+
+    fn delete(&mut self, ctx: RpcContext, req: DeleteRequest, sink: UnarySink<DeleteResponse>) {
+    }
+
+    fn scan(&mut self, ctx: RpcContext, req: ScanRequest, sink: UnarySink<ScanResponse>) {
     }
 }
 
 fn main() {
     let _guard = log_util::init_log(None);
     let env = Arc::new(Environment::new(1));
-    let service = helloworld_grpc::create_greeter(GreeterService);
+    let service = operation_grpc::create_sparrow_db(SparrowDBService);
     let mut server = ServerBuilder::new(env)
         .register_service(service)
         .bind("127.0.0.1", 50_051)

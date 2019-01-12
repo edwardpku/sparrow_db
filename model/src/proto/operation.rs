@@ -22,47 +22,63 @@ use protobuf::Message as Message_imported_for_functions;
 use protobuf::ProtobufEnum as ProtobufEnum_imported_for_functions;
 
 #[derive(PartialEq,Clone,Default)]
-pub struct GetRequest {
+pub struct Exception {
     // message fields
-    pub name: ::std::string::String,
+    pub message: ::std::string::String,
+    pub field_type: Exception_Type,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
 }
 
-impl GetRequest {
-    pub fn new() -> GetRequest {
+impl Exception {
+    pub fn new() -> Exception {
         ::std::default::Default::default()
     }
 
-    // string name = 1;
+    // string message = 1;
 
-    pub fn clear_name(&mut self) {
-        self.name.clear();
+    pub fn clear_message(&mut self) {
+        self.message.clear();
     }
 
     // Param is passed by value, moved
-    pub fn set_name(&mut self, v: ::std::string::String) {
-        self.name = v;
+    pub fn set_message(&mut self, v: ::std::string::String) {
+        self.message = v;
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&mut self) -> &mut ::std::string::String {
-        &mut self.name
+    pub fn mut_message(&mut self) -> &mut ::std::string::String {
+        &mut self.message
     }
 
     // Take field
-    pub fn take_name(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.name, ::std::string::String::new())
+    pub fn take_message(&mut self) -> ::std::string::String {
+        ::std::mem::replace(&mut self.message, ::std::string::String::new())
     }
 
-    pub fn get_name(&self) -> &str {
-        &self.name
+    pub fn get_message(&self) -> &str {
+        &self.message
+    }
+
+    // .sparrow_db_model.Exception.Type type = 2;
+
+    pub fn clear_field_type(&mut self) {
+        self.field_type = Exception_Type::RetryableException;
+    }
+
+    // Param is passed by value, moved
+    pub fn set_field_type(&mut self, v: Exception_Type) {
+        self.field_type = v;
+    }
+
+    pub fn get_field_type(&self) -> Exception_Type {
+        self.field_type
     }
 }
 
-impl ::protobuf::Message for GetRequest {
+impl ::protobuf::Message for Exception {
     fn is_initialized(&self) -> bool {
         true
     }
@@ -72,7 +88,10 @@ impl ::protobuf::Message for GetRequest {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.name)?;
+                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.message)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_proto3_enum_with_unknown_fields_into(wire_type, is, &mut self.field_type, 2, &mut self.unknown_fields)?
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -86,8 +105,11 @@ impl ::protobuf::Message for GetRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.name.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.name);
+        if !self.message.is_empty() {
+            my_size += ::protobuf::rt::string_size(1, &self.message);
+        }
+        if self.field_type != Exception_Type::RetryableException {
+            my_size += ::protobuf::rt::enum_size(2, self.field_type);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -95,8 +117,235 @@ impl ::protobuf::Message for GetRequest {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.name.is_empty() {
-            os.write_string(1, &self.name)?;
+        if !self.message.is_empty() {
+            os.write_string(1, &self.message)?;
+        }
+        if self.field_type != Exception_Type::RetryableException {
+            os.write_enum(2, self.field_type.value())?;
+        }
+        os.write_unknown_fields(self.get_unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn get_cached_size(&self) -> u32 {
+        self.cached_size.get()
+    }
+
+    fn get_unknown_fields(&self) -> &::protobuf::UnknownFields {
+        &self.unknown_fields
+    }
+
+    fn mut_unknown_fields(&mut self) -> &mut ::protobuf::UnknownFields {
+        &mut self.unknown_fields
+    }
+
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+    fn as_any_mut(&mut self) -> &mut ::std::any::Any {
+        self as &mut ::std::any::Any
+    }
+    fn into_any(self: Box<Self>) -> ::std::boxed::Box<::std::any::Any> {
+        self
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        Self::descriptor_static()
+    }
+
+    fn new() -> Exception {
+        Exception::new()
+    }
+
+    fn descriptor_static() -> &'static ::protobuf::reflect::MessageDescriptor {
+        static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const ::protobuf::reflect::MessageDescriptor,
+        };
+        unsafe {
+            descriptor.get(|| {
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
+                    "message",
+                    |m: &Exception| { &m.message },
+                    |m: &mut Exception| { &mut m.message },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeEnum<Exception_Type>>(
+                    "type",
+                    |m: &Exception| { &m.field_type },
+                    |m: &mut Exception| { &mut m.field_type },
+                ));
+                ::protobuf::reflect::MessageDescriptor::new::<Exception>(
+                    "Exception",
+                    fields,
+                    file_descriptor_proto()
+                )
+            })
+        }
+    }
+
+    fn default_instance() -> &'static Exception {
+        static mut instance: ::protobuf::lazy::Lazy<Exception> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const Exception,
+        };
+        unsafe {
+            instance.get(Exception::new)
+        }
+    }
+}
+
+impl ::protobuf::Clear for Exception {
+    fn clear(&mut self) {
+        self.clear_message();
+        self.clear_field_type();
+        self.unknown_fields.clear();
+    }
+}
+
+impl ::std::fmt::Debug for Exception {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for Exception {
+    fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
+        ::protobuf::reflect::ProtobufValueRef::Message(self)
+    }
+}
+
+#[derive(Clone,PartialEq,Eq,Debug,Hash)]
+pub enum Exception_Type {
+    RetryableException = 0,
+    TerminalException = 1,
+}
+
+impl ::protobuf::ProtobufEnum for Exception_Type {
+    fn value(&self) -> i32 {
+        *self as i32
+    }
+
+    fn from_i32(value: i32) -> ::std::option::Option<Exception_Type> {
+        match value {
+            0 => ::std::option::Option::Some(Exception_Type::RetryableException),
+            1 => ::std::option::Option::Some(Exception_Type::TerminalException),
+            _ => ::std::option::Option::None
+        }
+    }
+
+    fn values() -> &'static [Self] {
+        static values: &'static [Exception_Type] = &[
+            Exception_Type::RetryableException,
+            Exception_Type::TerminalException,
+        ];
+        values
+    }
+
+    fn enum_descriptor_static() -> &'static ::protobuf::reflect::EnumDescriptor {
+        static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::EnumDescriptor> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const ::protobuf::reflect::EnumDescriptor,
+        };
+        unsafe {
+            descriptor.get(|| {
+                ::protobuf::reflect::EnumDescriptor::new("Exception_Type", file_descriptor_proto())
+            })
+        }
+    }
+}
+
+impl ::std::marker::Copy for Exception_Type {
+}
+
+impl ::std::default::Default for Exception_Type {
+    fn default() -> Self {
+        Exception_Type::RetryableException
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for Exception_Type {
+    fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
+        ::protobuf::reflect::ProtobufValueRef::Enum(self.descriptor())
+    }
+}
+
+#[derive(PartialEq,Clone,Default)]
+pub struct GetRequest {
+    // message fields
+    pub key: ::std::vec::Vec<u8>,
+    // special fields
+    unknown_fields: ::protobuf::UnknownFields,
+    cached_size: ::protobuf::CachedSize,
+}
+
+impl GetRequest {
+    pub fn new() -> GetRequest {
+        ::std::default::Default::default()
+    }
+
+    // bytes key = 1;
+
+    pub fn clear_key(&mut self) {
+        self.key.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.key = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.key
+    }
+
+    // Take field
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.key, ::std::vec::Vec::new())
+    }
+
+    pub fn get_key(&self) -> &[u8] {
+        &self.key
+    }
+}
+
+impl ::protobuf::Message for GetRequest {
+    fn is_initialized(&self) -> bool {
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream) -> ::protobuf::ProtobufResult<()> {
+        while !is.eof()? {
+            let (field_number, wire_type) = is.read_tag_unpack()?;
+            match field_number {
+                1 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.key)?;
+                },
+                _ => {
+                    ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u32 {
+        let mut my_size = 0;
+        if !self.key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(1, &self.key);
+        }
+        my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
+        self.cached_size.set(my_size);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
+        if !self.key.is_empty() {
+            os.write_bytes(1, &self.key)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -140,10 +389,10 @@ impl ::protobuf::Message for GetRequest {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "name",
-                    |m: &GetRequest| { &m.name },
-                    |m: &mut GetRequest| { &mut m.name },
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "key",
+                    |m: &GetRequest| { &m.key },
+                    |m: &mut GetRequest| { &mut m.key },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<GetRequest>(
                     "GetRequest",
@@ -167,7 +416,7 @@ impl ::protobuf::Message for GetRequest {
 
 impl ::protobuf::Clear for GetRequest {
     fn clear(&mut self) {
-        self.clear_name();
+        self.clear_key();
         self.unknown_fields.clear();
     }
 }
@@ -187,7 +436,8 @@ impl ::protobuf::reflect::ProtobufValue for GetRequest {
 #[derive(PartialEq,Clone,Default)]
 pub struct GetResponse {
     // message fields
-    pub message: ::std::string::String,
+    pub exception: ::protobuf::SingularPtrField<Exception>,
+    pub value: ::std::vec::Vec<u8>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -198,35 +448,73 @@ impl GetResponse {
         ::std::default::Default::default()
     }
 
-    // string message = 1;
+    // .sparrow_db_model.Exception exception = 1;
 
-    pub fn clear_message(&mut self) {
-        self.message.clear();
+    pub fn clear_exception(&mut self) {
+        self.exception.clear();
+    }
+
+    pub fn has_exception(&self) -> bool {
+        self.exception.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_message(&mut self, v: ::std::string::String) {
-        self.message = v;
+    pub fn set_exception(&mut self, v: Exception) {
+        self.exception = ::protobuf::SingularPtrField::some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_message(&mut self) -> &mut ::std::string::String {
-        &mut self.message
+    pub fn mut_exception(&mut self) -> &mut Exception {
+        if self.exception.is_none() {
+            self.exception.set_default();
+        }
+        self.exception.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_message(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.message, ::std::string::String::new())
+    pub fn take_exception(&mut self) -> Exception {
+        self.exception.take().unwrap_or_else(|| Exception::new())
     }
 
-    pub fn get_message(&self) -> &str {
-        &self.message
+    pub fn get_exception(&self) -> &Exception {
+        self.exception.as_ref().unwrap_or_else(|| Exception::default_instance())
+    }
+
+    // bytes value = 2;
+
+    pub fn clear_value(&mut self) {
+        self.value.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_value(&mut self, v: ::std::vec::Vec<u8>) {
+        self.value = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_value(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.value
+    }
+
+    // Take field
+    pub fn take_value(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.value, ::std::vec::Vec::new())
+    }
+
+    pub fn get_value(&self) -> &[u8] {
+        &self.value
     }
 }
 
 impl ::protobuf::Message for GetResponse {
     fn is_initialized(&self) -> bool {
+        for v in &self.exception {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -235,7 +523,10 @@ impl ::protobuf::Message for GetResponse {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.message)?;
+                    ::protobuf::rt::read_singular_message_into(wire_type, is, &mut self.exception)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.value)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -249,8 +540,12 @@ impl ::protobuf::Message for GetResponse {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.message.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.message);
+        if let Some(ref v) = self.exception.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
+        }
+        if !self.value.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(2, &self.value);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -258,8 +553,13 @@ impl ::protobuf::Message for GetResponse {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.message.is_empty() {
-            os.write_string(1, &self.message)?;
+        if let Some(ref v) = self.exception.as_ref() {
+            os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited)?;
+            os.write_raw_varint32(v.get_cached_size())?;
+            v.write_to_with_cached_sizes(os)?;
+        }
+        if !self.value.is_empty() {
+            os.write_bytes(2, &self.value)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -303,10 +603,15 @@ impl ::protobuf::Message for GetResponse {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "message",
-                    |m: &GetResponse| { &m.message },
-                    |m: &mut GetResponse| { &mut m.message },
+                fields.push(::protobuf::reflect::accessor::make_singular_ptr_field_accessor::<_, ::protobuf::types::ProtobufTypeMessage<Exception>>(
+                    "exception",
+                    |m: &GetResponse| { &m.exception },
+                    |m: &mut GetResponse| { &mut m.exception },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "value",
+                    |m: &GetResponse| { &m.value },
+                    |m: &mut GetResponse| { &mut m.value },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<GetResponse>(
                     "GetResponse",
@@ -330,7 +635,8 @@ impl ::protobuf::Message for GetResponse {
 
 impl ::protobuf::Clear for GetResponse {
     fn clear(&mut self) {
-        self.clear_message();
+        self.clear_exception();
+        self.clear_value();
         self.unknown_fields.clear();
     }
 }
@@ -350,7 +656,8 @@ impl ::protobuf::reflect::ProtobufValue for GetResponse {
 #[derive(PartialEq,Clone,Default)]
 pub struct PutRequest {
     // message fields
-    pub name: ::std::string::String,
+    pub key: ::std::vec::Vec<u8>,
+    pub value: ::std::vec::Vec<u8>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -361,30 +668,56 @@ impl PutRequest {
         ::std::default::Default::default()
     }
 
-    // string name = 1;
+    // bytes key = 1;
 
-    pub fn clear_name(&mut self) {
-        self.name.clear();
+    pub fn clear_key(&mut self) {
+        self.key.clear();
     }
 
     // Param is passed by value, moved
-    pub fn set_name(&mut self, v: ::std::string::String) {
-        self.name = v;
+    pub fn set_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.key = v;
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&mut self) -> &mut ::std::string::String {
-        &mut self.name
+    pub fn mut_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.key
     }
 
     // Take field
-    pub fn take_name(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.name, ::std::string::String::new())
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.key, ::std::vec::Vec::new())
     }
 
-    pub fn get_name(&self) -> &str {
-        &self.name
+    pub fn get_key(&self) -> &[u8] {
+        &self.key
+    }
+
+    // bytes value = 2;
+
+    pub fn clear_value(&mut self) {
+        self.value.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_value(&mut self, v: ::std::vec::Vec<u8>) {
+        self.value = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_value(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.value
+    }
+
+    // Take field
+    pub fn take_value(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.value, ::std::vec::Vec::new())
+    }
+
+    pub fn get_value(&self) -> &[u8] {
+        &self.value
     }
 }
 
@@ -398,7 +731,10 @@ impl ::protobuf::Message for PutRequest {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.name)?;
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.key)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.value)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -412,8 +748,11 @@ impl ::protobuf::Message for PutRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.name.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.name);
+        if !self.key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(1, &self.key);
+        }
+        if !self.value.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(2, &self.value);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -421,8 +760,11 @@ impl ::protobuf::Message for PutRequest {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.name.is_empty() {
-            os.write_string(1, &self.name)?;
+        if !self.key.is_empty() {
+            os.write_bytes(1, &self.key)?;
+        }
+        if !self.value.is_empty() {
+            os.write_bytes(2, &self.value)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -466,10 +808,15 @@ impl ::protobuf::Message for PutRequest {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "name",
-                    |m: &PutRequest| { &m.name },
-                    |m: &mut PutRequest| { &mut m.name },
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "key",
+                    |m: &PutRequest| { &m.key },
+                    |m: &mut PutRequest| { &mut m.key },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "value",
+                    |m: &PutRequest| { &m.value },
+                    |m: &mut PutRequest| { &mut m.value },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<PutRequest>(
                     "PutRequest",
@@ -493,7 +840,8 @@ impl ::protobuf::Message for PutRequest {
 
 impl ::protobuf::Clear for PutRequest {
     fn clear(&mut self) {
-        self.clear_name();
+        self.clear_key();
+        self.clear_value();
         self.unknown_fields.clear();
     }
 }
@@ -513,7 +861,7 @@ impl ::protobuf::reflect::ProtobufValue for PutRequest {
 #[derive(PartialEq,Clone,Default)]
 pub struct PutResponse {
     // message fields
-    pub message: ::std::string::String,
+    pub exception: ::protobuf::SingularPtrField<Exception>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -524,35 +872,47 @@ impl PutResponse {
         ::std::default::Default::default()
     }
 
-    // string message = 1;
+    // .sparrow_db_model.Exception exception = 1;
 
-    pub fn clear_message(&mut self) {
-        self.message.clear();
+    pub fn clear_exception(&mut self) {
+        self.exception.clear();
+    }
+
+    pub fn has_exception(&self) -> bool {
+        self.exception.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_message(&mut self, v: ::std::string::String) {
-        self.message = v;
+    pub fn set_exception(&mut self, v: Exception) {
+        self.exception = ::protobuf::SingularPtrField::some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_message(&mut self) -> &mut ::std::string::String {
-        &mut self.message
+    pub fn mut_exception(&mut self) -> &mut Exception {
+        if self.exception.is_none() {
+            self.exception.set_default();
+        }
+        self.exception.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_message(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.message, ::std::string::String::new())
+    pub fn take_exception(&mut self) -> Exception {
+        self.exception.take().unwrap_or_else(|| Exception::new())
     }
 
-    pub fn get_message(&self) -> &str {
-        &self.message
+    pub fn get_exception(&self) -> &Exception {
+        self.exception.as_ref().unwrap_or_else(|| Exception::default_instance())
     }
 }
 
 impl ::protobuf::Message for PutResponse {
     fn is_initialized(&self) -> bool {
+        for v in &self.exception {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -561,7 +921,7 @@ impl ::protobuf::Message for PutResponse {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.message)?;
+                    ::protobuf::rt::read_singular_message_into(wire_type, is, &mut self.exception)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -575,8 +935,9 @@ impl ::protobuf::Message for PutResponse {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.message.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.message);
+        if let Some(ref v) = self.exception.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -584,8 +945,10 @@ impl ::protobuf::Message for PutResponse {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.message.is_empty() {
-            os.write_string(1, &self.message)?;
+        if let Some(ref v) = self.exception.as_ref() {
+            os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited)?;
+            os.write_raw_varint32(v.get_cached_size())?;
+            v.write_to_with_cached_sizes(os)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -629,10 +992,10 @@ impl ::protobuf::Message for PutResponse {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "message",
-                    |m: &PutResponse| { &m.message },
-                    |m: &mut PutResponse| { &mut m.message },
+                fields.push(::protobuf::reflect::accessor::make_singular_ptr_field_accessor::<_, ::protobuf::types::ProtobufTypeMessage<Exception>>(
+                    "exception",
+                    |m: &PutResponse| { &m.exception },
+                    |m: &mut PutResponse| { &mut m.exception },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<PutResponse>(
                     "PutResponse",
@@ -656,7 +1019,7 @@ impl ::protobuf::Message for PutResponse {
 
 impl ::protobuf::Clear for PutResponse {
     fn clear(&mut self) {
-        self.clear_message();
+        self.clear_exception();
         self.unknown_fields.clear();
     }
 }
@@ -676,7 +1039,7 @@ impl ::protobuf::reflect::ProtobufValue for PutResponse {
 #[derive(PartialEq,Clone,Default)]
 pub struct DeleteRequest {
     // message fields
-    pub name: ::std::string::String,
+    pub key: ::std::vec::Vec<u8>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -687,30 +1050,30 @@ impl DeleteRequest {
         ::std::default::Default::default()
     }
 
-    // string name = 1;
+    // bytes key = 1;
 
-    pub fn clear_name(&mut self) {
-        self.name.clear();
+    pub fn clear_key(&mut self) {
+        self.key.clear();
     }
 
     // Param is passed by value, moved
-    pub fn set_name(&mut self, v: ::std::string::String) {
-        self.name = v;
+    pub fn set_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.key = v;
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&mut self) -> &mut ::std::string::String {
-        &mut self.name
+    pub fn mut_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.key
     }
 
     // Take field
-    pub fn take_name(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.name, ::std::string::String::new())
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.key, ::std::vec::Vec::new())
     }
 
-    pub fn get_name(&self) -> &str {
-        &self.name
+    pub fn get_key(&self) -> &[u8] {
+        &self.key
     }
 }
 
@@ -724,7 +1087,7 @@ impl ::protobuf::Message for DeleteRequest {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.name)?;
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.key)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -738,8 +1101,8 @@ impl ::protobuf::Message for DeleteRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.name.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.name);
+        if !self.key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(1, &self.key);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -747,8 +1110,8 @@ impl ::protobuf::Message for DeleteRequest {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.name.is_empty() {
-            os.write_string(1, &self.name)?;
+        if !self.key.is_empty() {
+            os.write_bytes(1, &self.key)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -792,10 +1155,10 @@ impl ::protobuf::Message for DeleteRequest {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "name",
-                    |m: &DeleteRequest| { &m.name },
-                    |m: &mut DeleteRequest| { &mut m.name },
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "key",
+                    |m: &DeleteRequest| { &m.key },
+                    |m: &mut DeleteRequest| { &mut m.key },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<DeleteRequest>(
                     "DeleteRequest",
@@ -819,7 +1182,7 @@ impl ::protobuf::Message for DeleteRequest {
 
 impl ::protobuf::Clear for DeleteRequest {
     fn clear(&mut self) {
-        self.clear_name();
+        self.clear_key();
         self.unknown_fields.clear();
     }
 }
@@ -839,7 +1202,7 @@ impl ::protobuf::reflect::ProtobufValue for DeleteRequest {
 #[derive(PartialEq,Clone,Default)]
 pub struct DeleteResponse {
     // message fields
-    pub message: ::std::string::String,
+    pub exception: ::protobuf::SingularPtrField<Exception>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -850,35 +1213,47 @@ impl DeleteResponse {
         ::std::default::Default::default()
     }
 
-    // string message = 1;
+    // .sparrow_db_model.Exception exception = 1;
 
-    pub fn clear_message(&mut self) {
-        self.message.clear();
+    pub fn clear_exception(&mut self) {
+        self.exception.clear();
+    }
+
+    pub fn has_exception(&self) -> bool {
+        self.exception.is_some()
     }
 
     // Param is passed by value, moved
-    pub fn set_message(&mut self, v: ::std::string::String) {
-        self.message = v;
+    pub fn set_exception(&mut self, v: Exception) {
+        self.exception = ::protobuf::SingularPtrField::some(v);
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_message(&mut self) -> &mut ::std::string::String {
-        &mut self.message
+    pub fn mut_exception(&mut self) -> &mut Exception {
+        if self.exception.is_none() {
+            self.exception.set_default();
+        }
+        self.exception.as_mut().unwrap()
     }
 
     // Take field
-    pub fn take_message(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.message, ::std::string::String::new())
+    pub fn take_exception(&mut self) -> Exception {
+        self.exception.take().unwrap_or_else(|| Exception::new())
     }
 
-    pub fn get_message(&self) -> &str {
-        &self.message
+    pub fn get_exception(&self) -> &Exception {
+        self.exception.as_ref().unwrap_or_else(|| Exception::default_instance())
     }
 }
 
 impl ::protobuf::Message for DeleteResponse {
     fn is_initialized(&self) -> bool {
+        for v in &self.exception {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
         true
     }
 
@@ -887,7 +1262,7 @@ impl ::protobuf::Message for DeleteResponse {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.message)?;
+                    ::protobuf::rt::read_singular_message_into(wire_type, is, &mut self.exception)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -901,8 +1276,9 @@ impl ::protobuf::Message for DeleteResponse {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.message.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.message);
+        if let Some(ref v) = self.exception.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -910,8 +1286,10 @@ impl ::protobuf::Message for DeleteResponse {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.message.is_empty() {
-            os.write_string(1, &self.message)?;
+        if let Some(ref v) = self.exception.as_ref() {
+            os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited)?;
+            os.write_raw_varint32(v.get_cached_size())?;
+            v.write_to_with_cached_sizes(os)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -955,10 +1333,10 @@ impl ::protobuf::Message for DeleteResponse {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "message",
-                    |m: &DeleteResponse| { &m.message },
-                    |m: &mut DeleteResponse| { &mut m.message },
+                fields.push(::protobuf::reflect::accessor::make_singular_ptr_field_accessor::<_, ::protobuf::types::ProtobufTypeMessage<Exception>>(
+                    "exception",
+                    |m: &DeleteResponse| { &m.exception },
+                    |m: &mut DeleteResponse| { &mut m.exception },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<DeleteResponse>(
                     "DeleteResponse",
@@ -982,7 +1360,7 @@ impl ::protobuf::Message for DeleteResponse {
 
 impl ::protobuf::Clear for DeleteResponse {
     fn clear(&mut self) {
-        self.clear_message();
+        self.clear_exception();
         self.unknown_fields.clear();
     }
 }
@@ -1002,7 +1380,8 @@ impl ::protobuf::reflect::ProtobufValue for DeleteResponse {
 #[derive(PartialEq,Clone,Default)]
 pub struct ScanRequest {
     // message fields
-    pub name: ::std::string::String,
+    pub start_key: ::std::vec::Vec<u8>,
+    pub end_key: ::std::vec::Vec<u8>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
@@ -1013,30 +1392,56 @@ impl ScanRequest {
         ::std::default::Default::default()
     }
 
-    // string name = 1;
+    // bytes start_key = 1;
 
-    pub fn clear_name(&mut self) {
-        self.name.clear();
+    pub fn clear_start_key(&mut self) {
+        self.start_key.clear();
     }
 
     // Param is passed by value, moved
-    pub fn set_name(&mut self, v: ::std::string::String) {
-        self.name = v;
+    pub fn set_start_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.start_key = v;
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_name(&mut self) -> &mut ::std::string::String {
-        &mut self.name
+    pub fn mut_start_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.start_key
     }
 
     // Take field
-    pub fn take_name(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.name, ::std::string::String::new())
+    pub fn take_start_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.start_key, ::std::vec::Vec::new())
     }
 
-    pub fn get_name(&self) -> &str {
-        &self.name
+    pub fn get_start_key(&self) -> &[u8] {
+        &self.start_key
+    }
+
+    // bytes end_key = 2;
+
+    pub fn clear_end_key(&mut self) {
+        self.end_key.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_end_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.end_key = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_end_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.end_key
+    }
+
+    // Take field
+    pub fn take_end_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.end_key, ::std::vec::Vec::new())
+    }
+
+    pub fn get_end_key(&self) -> &[u8] {
+        &self.end_key
     }
 }
 
@@ -1050,7 +1455,10 @@ impl ::protobuf::Message for ScanRequest {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.name)?;
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.start_key)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.end_key)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -1064,8 +1472,11 @@ impl ::protobuf::Message for ScanRequest {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.name.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.name);
+        if !self.start_key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(1, &self.start_key);
+        }
+        if !self.end_key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(2, &self.end_key);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -1073,8 +1484,11 @@ impl ::protobuf::Message for ScanRequest {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.name.is_empty() {
-            os.write_string(1, &self.name)?;
+        if !self.start_key.is_empty() {
+            os.write_bytes(1, &self.start_key)?;
+        }
+        if !self.end_key.is_empty() {
+            os.write_bytes(2, &self.end_key)?;
         }
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
@@ -1118,10 +1532,15 @@ impl ::protobuf::Message for ScanRequest {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "name",
-                    |m: &ScanRequest| { &m.name },
-                    |m: &mut ScanRequest| { &mut m.name },
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "start_key",
+                    |m: &ScanRequest| { &m.start_key },
+                    |m: &mut ScanRequest| { &mut m.start_key },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "end_key",
+                    |m: &ScanRequest| { &m.end_key },
+                    |m: &mut ScanRequest| { &mut m.end_key },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<ScanRequest>(
                     "ScanRequest",
@@ -1145,7 +1564,8 @@ impl ::protobuf::Message for ScanRequest {
 
 impl ::protobuf::Clear for ScanRequest {
     fn clear(&mut self) {
-        self.clear_name();
+        self.clear_start_key();
+        self.clear_end_key();
         self.unknown_fields.clear();
     }
 }
@@ -1163,47 +1583,74 @@ impl ::protobuf::reflect::ProtobufValue for ScanRequest {
 }
 
 #[derive(PartialEq,Clone,Default)]
-pub struct ScanResponse {
+pub struct KeyValuePair {
     // message fields
-    pub message: ::std::string::String,
+    pub key: ::std::vec::Vec<u8>,
+    pub value: ::std::vec::Vec<u8>,
     // special fields
     unknown_fields: ::protobuf::UnknownFields,
     cached_size: ::protobuf::CachedSize,
 }
 
-impl ScanResponse {
-    pub fn new() -> ScanResponse {
+impl KeyValuePair {
+    pub fn new() -> KeyValuePair {
         ::std::default::Default::default()
     }
 
-    // string message = 1;
+    // bytes key = 1;
 
-    pub fn clear_message(&mut self) {
-        self.message.clear();
+    pub fn clear_key(&mut self) {
+        self.key.clear();
     }
 
     // Param is passed by value, moved
-    pub fn set_message(&mut self, v: ::std::string::String) {
-        self.message = v;
+    pub fn set_key(&mut self, v: ::std::vec::Vec<u8>) {
+        self.key = v;
     }
 
     // Mutable pointer to the field.
     // If field is not initialized, it is initialized with default value first.
-    pub fn mut_message(&mut self) -> &mut ::std::string::String {
-        &mut self.message
+    pub fn mut_key(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.key
     }
 
     // Take field
-    pub fn take_message(&mut self) -> ::std::string::String {
-        ::std::mem::replace(&mut self.message, ::std::string::String::new())
+    pub fn take_key(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.key, ::std::vec::Vec::new())
     }
 
-    pub fn get_message(&self) -> &str {
-        &self.message
+    pub fn get_key(&self) -> &[u8] {
+        &self.key
+    }
+
+    // bytes value = 2;
+
+    pub fn clear_value(&mut self) {
+        self.value.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_value(&mut self, v: ::std::vec::Vec<u8>) {
+        self.value = v;
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_value(&mut self) -> &mut ::std::vec::Vec<u8> {
+        &mut self.value
+    }
+
+    // Take field
+    pub fn take_value(&mut self) -> ::std::vec::Vec<u8> {
+        ::std::mem::replace(&mut self.value, ::std::vec::Vec::new())
+    }
+
+    pub fn get_value(&self) -> &[u8] {
+        &self.value
     }
 }
 
-impl ::protobuf::Message for ScanResponse {
+impl ::protobuf::Message for KeyValuePair {
     fn is_initialized(&self) -> bool {
         true
     }
@@ -1213,7 +1660,10 @@ impl ::protobuf::Message for ScanResponse {
             let (field_number, wire_type) = is.read_tag_unpack()?;
             match field_number {
                 1 => {
-                    ::protobuf::rt::read_singular_proto3_string_into(wire_type, is, &mut self.message)?;
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.key)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_singular_proto3_bytes_into(wire_type, is, &mut self.value)?;
                 },
                 _ => {
                     ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
@@ -1227,8 +1677,11 @@ impl ::protobuf::Message for ScanResponse {
     #[allow(unused_variables)]
     fn compute_size(&self) -> u32 {
         let mut my_size = 0;
-        if !self.message.is_empty() {
-            my_size += ::protobuf::rt::string_size(1, &self.message);
+        if !self.key.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(1, &self.key);
+        }
+        if !self.value.is_empty() {
+            my_size += ::protobuf::rt::bytes_size(2, &self.value);
         }
         my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
         self.cached_size.set(my_size);
@@ -1236,9 +1689,239 @@ impl ::protobuf::Message for ScanResponse {
     }
 
     fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
-        if !self.message.is_empty() {
-            os.write_string(1, &self.message)?;
+        if !self.key.is_empty() {
+            os.write_bytes(1, &self.key)?;
         }
+        if !self.value.is_empty() {
+            os.write_bytes(2, &self.value)?;
+        }
+        os.write_unknown_fields(self.get_unknown_fields())?;
+        ::std::result::Result::Ok(())
+    }
+
+    fn get_cached_size(&self) -> u32 {
+        self.cached_size.get()
+    }
+
+    fn get_unknown_fields(&self) -> &::protobuf::UnknownFields {
+        &self.unknown_fields
+    }
+
+    fn mut_unknown_fields(&mut self) -> &mut ::protobuf::UnknownFields {
+        &mut self.unknown_fields
+    }
+
+    fn as_any(&self) -> &::std::any::Any {
+        self as &::std::any::Any
+    }
+    fn as_any_mut(&mut self) -> &mut ::std::any::Any {
+        self as &mut ::std::any::Any
+    }
+    fn into_any(self: Box<Self>) -> ::std::boxed::Box<::std::any::Any> {
+        self
+    }
+
+    fn descriptor(&self) -> &'static ::protobuf::reflect::MessageDescriptor {
+        Self::descriptor_static()
+    }
+
+    fn new() -> KeyValuePair {
+        KeyValuePair::new()
+    }
+
+    fn descriptor_static() -> &'static ::protobuf::reflect::MessageDescriptor {
+        static mut descriptor: ::protobuf::lazy::Lazy<::protobuf::reflect::MessageDescriptor> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const ::protobuf::reflect::MessageDescriptor,
+        };
+        unsafe {
+            descriptor.get(|| {
+                let mut fields = ::std::vec::Vec::new();
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "key",
+                    |m: &KeyValuePair| { &m.key },
+                    |m: &mut KeyValuePair| { &mut m.key },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeBytes>(
+                    "value",
+                    |m: &KeyValuePair| { &m.value },
+                    |m: &mut KeyValuePair| { &mut m.value },
+                ));
+                ::protobuf::reflect::MessageDescriptor::new::<KeyValuePair>(
+                    "KeyValuePair",
+                    fields,
+                    file_descriptor_proto()
+                )
+            })
+        }
+    }
+
+    fn default_instance() -> &'static KeyValuePair {
+        static mut instance: ::protobuf::lazy::Lazy<KeyValuePair> = ::protobuf::lazy::Lazy {
+            lock: ::protobuf::lazy::ONCE_INIT,
+            ptr: 0 as *const KeyValuePair,
+        };
+        unsafe {
+            instance.get(KeyValuePair::new)
+        }
+    }
+}
+
+impl ::protobuf::Clear for KeyValuePair {
+    fn clear(&mut self) {
+        self.clear_key();
+        self.clear_value();
+        self.unknown_fields.clear();
+    }
+}
+
+impl ::std::fmt::Debug for KeyValuePair {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        ::protobuf::text_format::fmt(self, f)
+    }
+}
+
+impl ::protobuf::reflect::ProtobufValue for KeyValuePair {
+    fn as_ref(&self) -> ::protobuf::reflect::ProtobufValueRef {
+        ::protobuf::reflect::ProtobufValueRef::Message(self)
+    }
+}
+
+#[derive(PartialEq,Clone,Default)]
+pub struct ScanResponse {
+    // message fields
+    pub exception: ::protobuf::SingularPtrField<Exception>,
+    pub key_value_list: ::protobuf::RepeatedField<KeyValuePair>,
+    // special fields
+    unknown_fields: ::protobuf::UnknownFields,
+    cached_size: ::protobuf::CachedSize,
+}
+
+impl ScanResponse {
+    pub fn new() -> ScanResponse {
+        ::std::default::Default::default()
+    }
+
+    // .sparrow_db_model.Exception exception = 1;
+
+    pub fn clear_exception(&mut self) {
+        self.exception.clear();
+    }
+
+    pub fn has_exception(&self) -> bool {
+        self.exception.is_some()
+    }
+
+    // Param is passed by value, moved
+    pub fn set_exception(&mut self, v: Exception) {
+        self.exception = ::protobuf::SingularPtrField::some(v);
+    }
+
+    // Mutable pointer to the field.
+    // If field is not initialized, it is initialized with default value first.
+    pub fn mut_exception(&mut self) -> &mut Exception {
+        if self.exception.is_none() {
+            self.exception.set_default();
+        }
+        self.exception.as_mut().unwrap()
+    }
+
+    // Take field
+    pub fn take_exception(&mut self) -> Exception {
+        self.exception.take().unwrap_or_else(|| Exception::new())
+    }
+
+    pub fn get_exception(&self) -> &Exception {
+        self.exception.as_ref().unwrap_or_else(|| Exception::default_instance())
+    }
+
+    // repeated .sparrow_db_model.KeyValuePair key_value_list = 2;
+
+    pub fn clear_key_value_list(&mut self) {
+        self.key_value_list.clear();
+    }
+
+    // Param is passed by value, moved
+    pub fn set_key_value_list(&mut self, v: ::protobuf::RepeatedField<KeyValuePair>) {
+        self.key_value_list = v;
+    }
+
+    // Mutable pointer to the field.
+    pub fn mut_key_value_list(&mut self) -> &mut ::protobuf::RepeatedField<KeyValuePair> {
+        &mut self.key_value_list
+    }
+
+    // Take field
+    pub fn take_key_value_list(&mut self) -> ::protobuf::RepeatedField<KeyValuePair> {
+        ::std::mem::replace(&mut self.key_value_list, ::protobuf::RepeatedField::new())
+    }
+
+    pub fn get_key_value_list(&self) -> &[KeyValuePair] {
+        &self.key_value_list
+    }
+}
+
+impl ::protobuf::Message for ScanResponse {
+    fn is_initialized(&self) -> bool {
+        for v in &self.exception {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        for v in &self.key_value_list {
+            if !v.is_initialized() {
+                return false;
+            }
+        };
+        true
+    }
+
+    fn merge_from(&mut self, is: &mut ::protobuf::CodedInputStream) -> ::protobuf::ProtobufResult<()> {
+        while !is.eof()? {
+            let (field_number, wire_type) = is.read_tag_unpack()?;
+            match field_number {
+                1 => {
+                    ::protobuf::rt::read_singular_message_into(wire_type, is, &mut self.exception)?;
+                },
+                2 => {
+                    ::protobuf::rt::read_repeated_message_into(wire_type, is, &mut self.key_value_list)?;
+                },
+                _ => {
+                    ::protobuf::rt::read_unknown_or_skip_group(field_number, wire_type, is, self.mut_unknown_fields())?;
+                },
+            };
+        }
+        ::std::result::Result::Ok(())
+    }
+
+    // Compute sizes of nested messages
+    #[allow(unused_variables)]
+    fn compute_size(&self) -> u32 {
+        let mut my_size = 0;
+        if let Some(ref v) = self.exception.as_ref() {
+            let len = v.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
+        }
+        for value in &self.key_value_list {
+            let len = value.compute_size();
+            my_size += 1 + ::protobuf::rt::compute_raw_varint32_size(len) + len;
+        };
+        my_size += ::protobuf::rt::unknown_fields_size(self.get_unknown_fields());
+        self.cached_size.set(my_size);
+        my_size
+    }
+
+    fn write_to_with_cached_sizes(&self, os: &mut ::protobuf::CodedOutputStream) -> ::protobuf::ProtobufResult<()> {
+        if let Some(ref v) = self.exception.as_ref() {
+            os.write_tag(1, ::protobuf::wire_format::WireTypeLengthDelimited)?;
+            os.write_raw_varint32(v.get_cached_size())?;
+            v.write_to_with_cached_sizes(os)?;
+        }
+        for v in &self.key_value_list {
+            os.write_tag(2, ::protobuf::wire_format::WireTypeLengthDelimited)?;
+            os.write_raw_varint32(v.get_cached_size())?;
+            v.write_to_with_cached_sizes(os)?;
+        };
         os.write_unknown_fields(self.get_unknown_fields())?;
         ::std::result::Result::Ok(())
     }
@@ -1281,10 +1964,15 @@ impl ::protobuf::Message for ScanResponse {
         unsafe {
             descriptor.get(|| {
                 let mut fields = ::std::vec::Vec::new();
-                fields.push(::protobuf::reflect::accessor::make_simple_field_accessor::<_, ::protobuf::types::ProtobufTypeString>(
-                    "message",
-                    |m: &ScanResponse| { &m.message },
-                    |m: &mut ScanResponse| { &mut m.message },
+                fields.push(::protobuf::reflect::accessor::make_singular_ptr_field_accessor::<_, ::protobuf::types::ProtobufTypeMessage<Exception>>(
+                    "exception",
+                    |m: &ScanResponse| { &m.exception },
+                    |m: &mut ScanResponse| { &mut m.exception },
+                ));
+                fields.push(::protobuf::reflect::accessor::make_repeated_field_accessor::<_, ::protobuf::types::ProtobufTypeMessage<KeyValuePair>>(
+                    "key_value_list",
+                    |m: &ScanResponse| { &m.key_value_list },
+                    |m: &mut ScanResponse| { &mut m.key_value_list },
                 ));
                 ::protobuf::reflect::MessageDescriptor::new::<ScanResponse>(
                     "ScanResponse",
@@ -1308,7 +1996,8 @@ impl ::protobuf::Message for ScanResponse {
 
 impl ::protobuf::Clear for ScanResponse {
     fn clear(&mut self) {
-        self.clear_message();
+        self.clear_exception();
+        self.clear_key_value_list();
         self.unknown_fields.clear();
     }
 }
@@ -1326,21 +2015,31 @@ impl ::protobuf::reflect::ProtobufValue for ScanResponse {
 }
 
 static file_descriptor_proto_data: &'static [u8] = b"\
-    \n\x0foperation.proto\x12\x10sparrow_db_model\"\x20\n\nGetRequest\x12\
-    \x12\n\x04name\x18\x01\x20\x01(\tR\x04name\"'\n\x0bGetResponse\x12\x18\n\
-    \x07message\x18\x01\x20\x01(\tR\x07message\"\x20\n\nPutRequest\x12\x12\n\
-    \x04name\x18\x01\x20\x01(\tR\x04name\"'\n\x0bPutResponse\x12\x18\n\x07me\
-    ssage\x18\x01\x20\x01(\tR\x07message\"#\n\rDeleteRequest\x12\x12\n\x04na\
-    me\x18\x01\x20\x01(\tR\x04name\"*\n\x0eDeleteResponse\x12\x18\n\x07messa\
-    ge\x18\x01\x20\x01(\tR\x07message\"!\n\x0bScanRequest\x12\x12\n\x04name\
-    \x18\x01\x20\x01(\tR\x04name\"(\n\x0cScanResponse\x12\x18\n\x07message\
-    \x18\x01\x20\x01(\tR\x07message2\xaf\x02\n\tSparrowDB\x12D\n\x03Get\x12\
-    \x1c.sparrow_db_model.GetRequest\x1a\x1d.sparrow_db_model.GetResponse\"\
-    \0\x12D\n\x03Put\x12\x1c.sparrow_db_model.PutRequest\x1a\x1d.sparrow_db_\
-    model.PutResponse\"\0\x12M\n\x06Delete\x12\x1f.sparrow_db_model.DeleteRe\
-    quest\x1a\x20.sparrow_db_model.DeleteResponse\"\0\x12G\n\x04Scan\x12\x1d\
-    .sparrow_db_model.ScanRequest\x1a\x1e.sparrow_db_model.ScanResponse\"\0b\
-    \x06proto3\
+    \n\x0foperation.proto\x12\x10sparrow_db_model\"\x92\x01\n\tException\x12\
+    \x18\n\x07message\x18\x01\x20\x01(\tR\x07message\x124\n\x04type\x18\x02\
+    \x20\x01(\x0e2\x20.sparrow_db_model.Exception.TypeR\x04type\"5\n\x04Type\
+    \x12\x16\n\x12RetryableException\x10\0\x12\x15\n\x11TerminalException\
+    \x10\x01\"\x1e\n\nGetRequest\x12\x10\n\x03key\x18\x01\x20\x01(\x0cR\x03k\
+    ey\"^\n\x0bGetResponse\x129\n\texception\x18\x01\x20\x01(\x0b2\x1b.sparr\
+    ow_db_model.ExceptionR\texception\x12\x14\n\x05value\x18\x02\x20\x01(\
+    \x0cR\x05value\"4\n\nPutRequest\x12\x10\n\x03key\x18\x01\x20\x01(\x0cR\
+    \x03key\x12\x14\n\x05value\x18\x02\x20\x01(\x0cR\x05value\"H\n\x0bPutRes\
+    ponse\x129\n\texception\x18\x01\x20\x01(\x0b2\x1b.sparrow_db_model.Excep\
+    tionR\texception\"!\n\rDeleteRequest\x12\x10\n\x03key\x18\x01\x20\x01(\
+    \x0cR\x03key\"K\n\x0eDeleteResponse\x129\n\texception\x18\x01\x20\x01(\
+    \x0b2\x1b.sparrow_db_model.ExceptionR\texception\"C\n\x0bScanRequest\x12\
+    \x1b\n\tstart_key\x18\x01\x20\x01(\x0cR\x08startKey\x12\x17\n\x07end_key\
+    \x18\x02\x20\x01(\x0cR\x06endKey\"6\n\x0cKeyValuePair\x12\x10\n\x03key\
+    \x18\x01\x20\x01(\x0cR\x03key\x12\x14\n\x05value\x18\x02\x20\x01(\x0cR\
+    \x05value\"\x8f\x01\n\x0cScanResponse\x129\n\texception\x18\x01\x20\x01(\
+    \x0b2\x1b.sparrow_db_model.ExceptionR\texception\x12D\n\x0ekey_value_lis\
+    t\x18\x02\x20\x03(\x0b2\x1e.sparrow_db_model.KeyValuePairR\x0ckeyValueLi\
+    st2\xaf\x02\n\tSparrowDB\x12D\n\x03Get\x12\x1c.sparrow_db_model.GetReque\
+    st\x1a\x1d.sparrow_db_model.GetResponse\"\0\x12D\n\x03Put\x12\x1c.sparro\
+    w_db_model.PutRequest\x1a\x1d.sparrow_db_model.PutResponse\"\0\x12M\n\
+    \x06Delete\x12\x1f.sparrow_db_model.DeleteRequest\x1a\x20.sparrow_db_mod\
+    el.DeleteResponse\"\0\x12G\n\x04Scan\x12\x1d.sparrow_db_model.ScanReques\
+    t\x1a\x1e.sparrow_db_model.ScanResponse\"\0b\x06proto3\
 ";
 
 static mut file_descriptor_proto_lazy: ::protobuf::lazy::Lazy<::protobuf::descriptor::FileDescriptorProto> = ::protobuf::lazy::Lazy {
