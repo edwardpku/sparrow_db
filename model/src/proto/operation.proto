@@ -1,0 +1,43 @@
+
+syntax = "proto3";
+
+package sparrow_db_model;
+
+service SparrowDB {
+  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc Put(PutRequest) returns (PutResponse) {}
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+  rpc Scan(ScanRequest) returns (ScanResponse) {}
+}
+
+message GetRequest {
+  string name = 1;
+}
+
+message GetResponse {
+  string message = 1;
+}
+
+message PutRequest {
+  string name = 1;
+}
+
+message PutResponse {
+  string message = 1;
+}
+
+message DeleteRequest {
+  string name = 1;
+}
+
+message DeleteResponse {
+  string message = 1;
+}
+
+message ScanRequest {
+  string name = 1;
+}
+
+message ScanResponse {
+  string message = 1;
+}
