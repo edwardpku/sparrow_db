@@ -1,0 +1,15 @@
+[package]
+name = "sparrow_db_model"
+version = "0.1.0"
+authors = ["Edward Li <edwardli@amazon.com>"]
+
+[dependencies]
+futures = "0.1.16"
+grpcio = "0.4.0"
+protobuf = "2.0.2"
+
+[build-dependencies]
+protoc-grpcio = "0.3.1"
+
+[workspace]
+members = ["model", "client"]

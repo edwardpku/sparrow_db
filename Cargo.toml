@@ -1,0 +1,16 @@
+[package]
+name = "sparrow_db"
+version = "0.1.0"
+authors = ["Edward Li <edwardli@amazon.com>"]
+
+[dependencies]
+futures = "^0.1.15"
+grpcio = { version = "0.4", default-features = false, features = ["protobuf-codec"] }
+grpcio-proto = { version = "0.4"}
+sparrow_db_model = { path = "model"}
+slog = { version = "2.4.1" }
+slog-async = "2.1"
+slog-stdlog = "3.0"
+slog-scope = "4.0"
+slog-term = "2.2"
+log = "0.4"
