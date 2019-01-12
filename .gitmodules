@@ -1,0 +1,3 @@
+[submodule "rocksdb_sys/rocksdb_sys/rocksdb"]
+	path = rocksdb_sys/rocksdb_sys/rocksdb
+	url = https://github.com/edwardpku/rocksdb.git
