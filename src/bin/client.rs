@@ -15,26 +15,26 @@ extern crate grpcio;
 extern crate grpcio_proto;
 extern crate sparrow_db_model;
 
-#[macro_use]
-extern crate log;
-
-#[path = "../log_util.rs"]
-mod log_util;
-
 use std::sync::Arc;
 
 use grpcio::{ChannelBuilder, EnvBuilder};
-use sparrow_db_model::proto::helloworld_grpc::GreeterClient;
-use sparrow_db_model::proto::helloworld::HelloRequest;
+use sparrow_db_model::proto::operation::{GetRequest, GetResponse, PutRequest, PutResponse};
+use sparrow_db_model::proto::operation_grpc::SparrowDbClient;
 
 fn main() {
-    let _guard = log_util::init_log(None);
     let env = Arc::new(EnvBuilder::new().build());
     let ch = ChannelBuilder::new(env).connect("localhost:50051");
-    let client = GreeterClient::new(ch);
+    let client = SparrowDbClient::new(ch);
 
-    let mut req = HelloRequest::new();
-    req.set_name("world".to_owned());
-    let reply = client.say_hello(&req).expect("rpc");
-    info!("Greeter received: {}", reply.get_message());
+    let mut put_req = PutRequest::new();
+    put_req.set_key(Vec::from("key1"));
+    put_req.set_value(Vec::from("value1"));
+    client.put(&put_req);
+
+    let mut get_req = GetRequest::new();
+    get_req.set_key(Vec::from("key1"));
+    match client.get(&get_req) {
+        Ok(value) => println!("OK {}", std::str::from_utf8(value.get_value()).unwrap()),
+        Err(e) => println!("Error {}", e)
+    };
 }
