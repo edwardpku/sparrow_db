@@ -1,8 +1,5 @@
 
-use sparrow_db_model::proto::operation::{
-    DeleteRequest, DeleteResponse, Exception, Exception_Type, GetRequest, GetResponse, PutRequest,
-    PutResponse, ScanRequest, ScanResponse,
-};
+use sparrow_db_model::proto::operation::{GetRequest, GetResponse, PutRequest, PutResponse};
 
 pub trait storage_engine {
     fn get(&self, req: &GetRequest) -> Result<GetResponse, String>;

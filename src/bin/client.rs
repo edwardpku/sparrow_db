@@ -18,13 +18,13 @@ fn main() {
     put_req.set_value(Vec::from("value1"));
     match client.put(&put_req) {
         Err(e) => println!("Error {}", e),
-        _ => ()
+        _ => (),
     }
 
     let mut get_req = GetRequest::new();
     get_req.set_key(Vec::from("key1"));
     match client.get(&get_req) {
         Ok(value) => println!("OK {}", std::str::from_utf8(value.get_value()).unwrap()),
-        Err(e) => println!("Error {}", e)
+        Err(e) => println!("Error {}", e),
     };
 }

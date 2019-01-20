@@ -1,12 +1,9 @@
 extern crate rocksdb;
 
-use rocksdb::DB;
 use rocksdb::rocksdb_options::WriteOptions;
-use sparrow_db_model::proto::operation::{
-    DeleteRequest, DeleteResponse, Exception, Exception_Type, GetRequest, GetResponse, PutRequest,
-    PutResponse, ScanRequest, ScanResponse,
-};
-use std::sync::{Arc, Mutex};
+use rocksdb::DB;
+use sparrow_db_model::proto::operation::{GetRequest, GetResponse, PutRequest, PutResponse};
+use std::sync::Arc;
 
 use super::storage_engine::storage_engine;
 
@@ -35,7 +32,7 @@ impl storage_engine for rocksdb_engine {
                 println!("retrived value {}", value.to_utf8().unwrap());
                 resp.set_value(value.to_vec());
                 Ok(resp)
-            },
+            }
             Ok(None) => Ok(resp),
             Err(e) => Err(e.to_string()),
         }
@@ -43,7 +40,10 @@ impl storage_engine for rocksdb_engine {
 
     fn put(&self, req: &PutRequest) -> Result<PutResponse, String> {
         let resp = PutResponse::new();
-        match self.db.put_opt(req.get_key(), req.get_value(), &WriteOptions::new()) {
+        match self
+            .db
+            .put_opt(req.get_key(), req.get_value(), &WriteOptions::new())
+        {
             Ok(()) => Ok(resp),
             Err(e) => Err(e.to_string()),
         }
