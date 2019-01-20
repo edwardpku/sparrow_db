@@ -98,15 +98,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "client"
-version = "0.1.0"
-dependencies = [
- "grpcio 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "grpcio-proto 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "sparrow_db_model 0.1.0",
-]
-
-[[package]]
 name = "cloudabi"
 version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

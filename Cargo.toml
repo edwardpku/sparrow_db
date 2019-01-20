@@ -19,4 +19,4 @@ libc = "0.2.11"
 crc = "1.2"
 
 [workspace]
-members = ["model", "client", "rocksdb"]
+members = ["model", "rocksdb"]

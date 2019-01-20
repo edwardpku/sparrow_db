@@ -7,9 +7,6 @@ extern crate rocksdb;
 #[macro_use]
 extern crate log;
 
-#[path = "../log_util.rs"]
-mod log_util;
-
 #[path = "../storage/mod.rs"]
 mod storage;
 
@@ -22,11 +19,9 @@ use futures::Future;
 use grpcio::{Environment, RpcContext, ServerBuilder, UnarySink};
 
 use sparrow_db_model::proto::operation::{GetRequest, GetResponse, PutRequest, PutResponse, DeleteRequest, DeleteResponse, ScanRequest, ScanResponse, Exception, Exception_Type};
-use sparrow_db_model::proto::operation_grpc::{self, SparrowDb, create_sparrow_db};
+use sparrow_db_model::proto::operation_grpc::{self, SparrowDb};
 use storage::storage_engine::storage_engine;
 use storage::rocksdb_engine::{rocksdb_engine, rocksdb_engine_config};
-
-use rocksdb::{DBIterator, SeekKey, Writable, WriteBatch, DB};
 
 #[derive(Clone)]
 struct SparrowDBService {
@@ -58,7 +53,6 @@ impl SparrowDb for SparrowDBService {
 }
 
 fn main() {
-    let _guard = log_util::init_log(None);
     let env = Arc::new(Environment::new(1));
 
     let config: rocksdb_engine_config = rocksdb_engine_config{path:String::from("/tmp/rocks")};
