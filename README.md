@@ -1,2 +1,2 @@
 # sparrow_db
-A lite-weight rocksdb wrapper
+A light-weight rocksdb based DBMS.
